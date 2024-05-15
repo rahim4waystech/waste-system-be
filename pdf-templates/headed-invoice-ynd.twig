@@ -1,0 +1,313 @@
+<!-- Chrome left the room! -->
+
+<link href="https://bootswatch.com/4/materia/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style type="text/css">
+@media print { body { -webkit-print-color-adjust: exact;font-family: 'PT Sans', sans-serif; } }
+
+p,span,div {
+  font-size: 1rem;
+}
+h1, h2, h3, h4,h5 {
+  font-family: 'Roboto Slab', sans-serif;
+  color: #a52025;
+}
+
+.mainColumns {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.header {
+
+}
+
+.companyLine {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #a52025;
+}
+
+.barHeader {
+  color: white;
+  background-color: #003399;
+  padding: 0.3rem;
+}
+
+.invoiceDetailsContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.invoiceDetailsContainer div {
+}
+
+.center {
+  text-align: center;
+}
+
+table th {
+  color: white;
+  background-color: #003399;
+  padding: 0.3rem;
+}
+
+.headerHidden {
+  background-color: transparent;
+}
+table td {
+  padding: 1rem;
+  padding-left:0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.mainTable td {
+    padding-bottom: 0;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: white;
+}
+
+tbody tr:nth-child(even) {
+  background-color: white;
+}
+
+
+</style>
+
+{% for dataset in datasets %}
+<div class='mainColumns'>
+<div>
+  <span class='companyLine'>{{ dataset.invoiceSettings.companyName }}</span><br />
+  {{dataset.invoiceSettings.address1}}<br />
+  {{dataset.invoiceSettings.address2}}<br />
+  {{dataset.invoiceSettings.addressCity}}<br />
+  {{dataset.invoiceSettings.addressCountry}}<br />
+  {{dataset.invoiceSettings.addressPostcode}}<br />
+
+  <br />
+  <br />
+  <div class='billtoContainer'>
+  <div class='billtoHeader barHeader'>
+    Bill to
+  </div>
+
+  {{ dataset.customerAddress }}
+</div>
+</div>
+
+
+
+<div>
+  <img style='width:15rem' src='{{dataset.invoiceSettings.companyLogo}}' />
+
+  <h1 class='header'>
+        INVOICE
+  </h1>
+
+  <div class='invoiceDetailsContainer'>
+    <div style='width:10rem;'>
+      <div class='barHeader'>
+      Invoice #
+      </div>
+      <span style='padding:0.3rem'>{{ dataset.invoiceNumber }}</span>
+    </div>
+    <div style='width:10rem;'>
+    <div class='barHeader'>
+    Invoice Date
+    </div>
+    <span style='padding:0.3rem'>{{ dataset.invoiceDate }}</span>
+    </div>
+
+  </div>
+<br />
+  <div class='invoiceDetailsContainer'>
+  <div style='width:10rem;'>
+    <div class='barHeader'>
+    Account ref
+    </div>
+    <span style='padding:0.3rem'>{{ dataset.customerRef }}</span>
+  </div>
+  <div style='width:10rem;'>
+  <div class='barHeader'>
+  Terms
+  </div>
+  <span style='padding:0.3rem'>{{dataset.invoiceSettings.invoiceTerms}}</span>
+  </div>
+
+</div>
+
+  </div>
+
+
+
+</div>
+
+<br />
+<br />
+<p style='font-size: 1.35rem'>
+
+LOAD EX: 
+{% if dataset.confirmation %}
+-
+{% endif %}
+{% if dataset.confirmation == false %} 
+
+{% if dataset.loadEx != '' and dataset.loadEx is not null %}  
+  {{ dataset.loadEx }}
+{% else %}
+  {{ dataset.invoiceItems[0].orderLine.name }}
+{% endif %}
+
+{% endif %}
+
+{% if dataset.poNumber is not null and datset.poNumber != '' %}
+ORDER REF:{{ dataset.poNumber }}</p>
+{% else %}
+ORDER REF:{{ dataset.invoiceItems[0].orderLine.order.poNumber }}</p>
+{% endif %}
+<br />
+<br />
+
+<table class='mainTable' style='margin-top: 2rem;width:100%'>
+<thead>
+  <th>DATE</th>
+  <th>VEHICLE REG</th>
+  <th>&nbsp;</th>
+  <th style='text-transform:uppercase'>{{ dataset.invoiceItems[0].orderLine.unit.name }}S</th>
+  {# <th>Unit Price</th>
+  <th>Total</th> #}
+</thead>  
+<tbody>
+{% for item in dataset.invoiceItems %}
+
+{% if loop.index % 24 == 0 %}
+<tr>
+  <td colspan='7'><br /><br /><br /><br /><br />&nbsp;<div style='page-break-after: always;'></div></td>
+  </tr>
+{% endif %}
+  <tr>
+    <td>{{ item.job.date | date('d-m-Y') }}</td>
+
+    {% if item.job.jobAssignment.vehicleId != -1 %}
+    <td>{{ item.job.jobAssignment.vehicle.registration }}</td>
+    {% endif %}
+    {% if item.job.jobAssignment.vehicleId == -1 %}
+    <td>{{ item.job.subcontractorReg }}</td>
+    {% endif %}
+    <td>{{ item.longDescription }}</td>
+    <td style='text-align:right'>{{ item.qty }}</td>
+    {# <td>£{{ item.price }}</td>
+    <td>£{{ item.total | number_format($number, 2, '.', '') }}</td> #}
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+<br />
+
+ {% if dataset.confirmation %}
+<p style='font-size: 1.5rem'><strong>SEE SUMMARY</strong></p>
+ {% endif %}
+
+  {% if dataset.confirmation == false %}
+<p style='font-size: 1.5rem'>TOTAL {{ dataset.invoiceItems[0].orderLine.unit.name | upper}}S = {{ dataset.qtyTotal }} @ &pound;{{ dataset.invoiceItems[0].price }}</p>
+ {% endif %}
+
+<br />
+
+<div class='mainColumns'>
+  <div>
+    <div class='barHeader'>
+    Terms
+    </div>
+
+    {{dataset.invoiceSettings.invoiceComments}}
+  </div>
+
+  <div>
+    <table class='green'>
+      <thead>
+        <th class='headerHidden'></th>
+        <th class='headerHidden'></th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style='color:#a52025'>SUB-TOTAL</strong></td>
+          <td>£{{ dataset.subtotal | number_format(2, '.', '') }}</td>
+        </tr>
+        {# <tr>
+        <td><strong style='color:#a52025'>VAT Rate</strong></td>
+        <td>{{ dataset.vatRate }}%</td>
+      </tr> #}
+      <tr>
+      <td><strong style='color:#a52025'>VAT</strong></td>
+      <td>£{{ dataset.vatTotal }}</td>
+    </tr>
+    <tr>
+    <td><strong style='color:#a52025'>INVOICE TOTAL</strong></td>
+    <td>£{{ dataset.total}}</td>
+  </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div style='position:absolute;bottom:10;text-align:center;width:100%;font-size:7rem;'>
+    <p style='font-size:1.5rem;'>Goods Carried Subject to 1998 RHA conditions of Carriage {{ dataset.podTemplate }}</p>
+    </div>
+
+{% if dataset.confirmation %}
+<div style='page-break-after: always;'></div>
+
+<h1>Invoice Confirmation - Summary</h1>
+
+<br />
+<br />
+{{ dataset.invoiceDate }} {{ dataset.invoiceNumber }}
+<br />
+<br />
+<table style='width:100%'>
+  <thead>
+  <th>DATE</th>
+  <th>VEHICLE REG</th>
+  <th>&nbsp;</th>
+  <th style='text-transform:uppercase'>{{ dataset.invoiceItems[0].orderLine.unit.name }}S</th>
+  <th>AMOUNT</th>
+  </thead>
+  <tbody>
+{% for item in dataset.invoiceItems %}
+  <tr>
+    <td>{{ item.job.date | date('d-m-Y') }}</td>
+    <td>{{ item.job.jobAssignment.vehicle.registration }}</td>
+    <td>{{ item.orderLine.name }}</td>
+    <td>{{ item.qty }}</td>
+    <td>£{{ item.total }}</td>
+  </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+<br />
+<br />
+
+<div style='width:100%;text-align:right;font-size: 1.2rem'>
+  <strong style='font-size: 1.2rem'>Overall Total:</strong> &pound;{{ dataset.subtotal }}
+</div>
+{% endif %}
+
+
+<div style='page-break-after: always;'></div>
+
+{# Used to show pods inside an invoice #}
+  {{ dataset.podsHTML | raw }}
+
+{% endfor %}

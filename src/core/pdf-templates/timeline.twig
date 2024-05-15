@@ -1,0 +1,120 @@
+<!-- Chrome left the room! -->
+
+<link href="https://bootswatch.com/4/materia/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+<style type="text/css">
+@media print { body { -webkit-print-color-adjust: exact;font-family: 'Roboto', sans-serif; } }
+
+h1, h2, h3, h4,h5 {
+  font-family: 'Roboto', sans-serif;
+  color: #2ecc71;
+}
+
+.mainColumns {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;x
+}
+
+.header {
+
+}
+
+.companyLine {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.barHeader {
+  color: white;
+  background-color: #34495e;
+  padding: 0.3rem;
+}
+
+.invoiceDetailsContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.invoiceDetailsContainer div {
+}
+
+.center {
+  text-align: center;
+}
+
+table th {
+  color: white;
+  background-color: #34495e;
+  padding: 0.3rem;
+  text-align: center;
+}
+
+.headerHidden {
+  background-color: transparent;
+}
+table td {
+  padding: 1rem;
+  text-align: center;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dfe6e9;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #b2bec3;
+}
+
+.fullcontainer {
+    padding: 1rem;
+}
+
+
+</style>
+
+<div class='fullcontainer'>
+
+<h1 class='title'>Timeline driver sheet</h1>
+<br />
+<br />
+
+
+{% for round in data %}
+
+<h3>Round: {{ round.name }}</h3>
+<table style='width:100%;'>
+    <thead>
+        <th>Driver</th>
+        <th>Vehicle</th>
+        <th>Driver Start Time</th>
+        <th>Customer</th>
+        <th>Qty</th>
+        <th>Site Name</th>
+        <th>Address</th>
+        <th>Contact details</th>
+        <th>Notes</th>
+    </thead>
+    <tbody>
+    {% for jobItem in round.jobs %}
+    {% if jobItem.jobStatusId == 2 %}
+        <tr>
+            <td>{{ round.driver.firstName }} {{ round.driver.lastName }}</td>
+            <td>{{ round.vehicle.registration }}</td>
+            <td>{{ round.driverStartTime }}</td>
+            <td>{{ jobItem.order.account.name }}</td>
+            <td>{{ jobItem.qty }}</td>
+            <td>{{ jobItem.order.site.name }}</td>
+            <td>{{ jobItem.address }}
+            <td>{{ jobItem.order.contactTelephone}}/{{jobItem.order.contactEmail}}</td>
+            <td>{{ jobItem.order.driverNotes }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+<hr />
+{% endfor %}
+
+</div>

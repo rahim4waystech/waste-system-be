@@ -1,0 +1,67 @@
+<style>
+    *,html,body {
+        font-size: 0.8rem;
+    }
+</style>
+
+
+Total Recycling Scotland <br />
+Pottishaw Place, Whitehill Industrial Estate, Bathgate EH48 2EN. <br />
+VAT Reg: GB 976920865<br />
+Company Reg: Scotland: 253465<br /><br />
+
+ID: {{ yardTrade.id }} Date: {{ yardTrade.date }}
+<hr style='border-top: 1px dashed black;width:100%' />
+WASTE PRODUCER: <br />
+Total Recycling Scotland <br />
+Pottishaw Place, Whitehill Industrial Estate, Bathgate EH48 2EN. <br />
+VAT Reg: GB 976920865<br />
+<br />
+Service: Yard out<br />
+SIC code:39000<br />
+<hr style='border-top: 1px dashed black;width:100%' />
+WEIGHTS: <br />
+Ticket Ref: {{ yardTrade }}<br />
+GROSS: {{ yardTrade.grossWeight }}T <br />
+TARE: {{ yardTrade.tareWeight }}T <br />
+NET: {{ yardTrade.grossWeight - yardTrade.tareWeight}} T <br />
+<br />
+
+{% for item in pricing %}
+
+{{ item.unit.name }} @ {{ item.qty }} &pound;{{ item.price }} <br />
+
+{% endfor %}
+
+<hr style='border-top: 1px dashed black;width:100%'>
+
+Sales <br />
+NET: {{ totals.net }}<br />
+VAT(20.00): {{ totals.vat }}<br />
+GROSS: {{ totals.gross }}<br />
+
+<hr style='border-top: 1px dashed black;width:100%'>
+  <p style='font-size: 1.2rem'><strong>
+    {{ yardTrade.grade.name }} - {{ yardTrade.grade.ewcCodes }} <br />
+<hr style='border-top: 1px dashed black;width:100%'>
+CARRIER/HAULIER:<br />
+{{ yardTrade.customer.name }}<br />
+{{ address }}
+Vehicle Reg: {{ yardTrade.vehicleReg }}<br />
+
+<hr style='border-top: 1px dashed black;width:100%'>
+WASTE Receiver:<br />
+{{ yardTrade.customer.name }}<br />
+{{ address }}
+<hr style='border-top: 1px dashed black;width:100%' />
+By signing below I confirm that I have fulfilled my duty to apply the waste hierarchy as required by section 34 (2A) of the Environment Protection Act 1990 in so far as required. Once signed you are hereby accepting terms of service.
+<br />
+<br />
+CARRIER: <br />
+
+<img style="height: 12rem;" src="{{ yardTrade.tippedSignature }}"><br />
+Print name: {{ yardTrade.tippedSignatureName }}<br /><br />
+
+Waste Producer: <br />
+<img _ngcontent-kvb-c591="" style="height: 12rem;" src="{{ yardTrade.carriarSignature }}"><br />
+Print name: {{ yardTrade.carriarSignatureName }} <br /><br />

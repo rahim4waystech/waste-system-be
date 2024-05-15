@@ -1,0 +1,52 @@
+<style>
+    *,html,body {
+        font-size: 0.8rem;
+    }
+</style>
+
+
+Total Recycling Scotland <br />
+Pottishaw Place, Whitehill Industrial Estate, Bathgate EH48 2EN. <br />
+VAT Reg: GB 976920865<br />
+Company Reg: Scotland: 253465<br /><br />
+
+ID: {{ job.id }} Date: {{ job.date }}
+<hr style='border-top: 1px dashed black;width:100%' />
+WASTE Carrier: <br />
+{{ job.order.account.name }}<br />
+{{ address }}
+<br />
+SIC code: {{ extra.sicCode.code }} - {{ extra.sicCode.name }}<br />
+<hr style='border-top: 1px dashed black;width:100%' />
+WEIGHTS: <br />
+Ticket Ref: {{ job.ticketNumber }}<br />
+    {{ job.order.containerType.name }} {{job.order.containerSizeType.size}}Yard <br />
+GROSS: {{ job.weight }}T <br />
+TARE: {{ job.tareWeight }}T <br />
+NET: {{ job.weight - job.tareWeight}} T <br />
+<br />
+  <p style='font-size: 1.2rem'><strong>
+    {{ job.order.grade.name }} - {{ job.order.grade.ewcCodes }}
+<hr style='border-top: 1px dashed black;width:100%'>
+Producer:<br />
+{{ job.order.account.name }}<br />
+{{ address }}<br />
+Vehicle Reg: {{ job.jobAssignment.driver.firstName }} {{ job.jobAssignment.driver.lastName }}<br />
+<hr style='border-top: 1px dashed black;width:100%'>
+Total Recycling Scotland <br />
+Pottishaw Place, Whitehill Industrial Estate, Bathgate EH48 2EN. <br />
+VAT Reg: GB 976920865<br />
+Company Reg: Scotland: 253465<br />
+Permit: WML/E/0120045<br />
+<hr style='border-top: 1px dashed black;width:100%' />
+By signing below I confirm that I have fulfilled my duty to apply the waste hierarchy as required by section 34 (2A) of the Environment Protection Act 1990 in so far as required. Once signed you are hereby accepting terms of service.
+<br />
+<br />
+Producer: <br />
+
+<img style="height: 12rem;" src="{{ job.tippedSignature }}"><br />
+Print name: {{ job.tippedSignatureName }}<br /><br />
+
+Waste Carrier: <br />
+<img _ngcontent-kvb-c591="" style="height: 12rem;" src="{{ job.carriarSignature }}"><br />
+Print name: {{ job.carriarSignatureName }} <br /><br />

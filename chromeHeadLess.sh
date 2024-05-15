@@ -1,0 +1,1 @@
+google-chrome-stable --headless --remote-debugging-port=9222 --disable-gpu --disable-translate --disable-extensions --disable-background-networking --safebrowsing-disable-auto-update --disable-sync --disable-default-apps --hide-scrollbars --metrics-recording-only --mute-audio --no-first-run

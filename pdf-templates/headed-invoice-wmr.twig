@@ -1,0 +1,195 @@
+<!-- Chrome left the room! -->
+
+<link href="https://bootswatch.com/4/materia/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+<style type="text/css">
+@media print { body { -webkit-print-color-adjust: exact;font-family: 'Roboto', sans-serif; } }
+
+h1, h2, h3, h4,h5 {
+  font-family: 'Roboto', sans-serif;
+  color: #2ecc71;
+}
+
+.mainColumns {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.companyLine {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.barHeader {
+  color: white;
+  background-color: #006fc0;
+  padding: 0.3rem;
+}
+
+.invoiceDetailsContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.invoiceDetailsContainer div {
+}
+
+.center {
+  text-align: center;
+}
+
+table th {
+  color: white;
+  background-color: #006fc0;
+  padding: 0.3rem;
+}
+
+.headerHidden {
+  background-color: transparent;
+}
+table td {
+  padding: 1rem;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #dfe6e9;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #b2bec3;
+}
+
+
+</style>
+
+{% for dataset in datasets %}
+<div class='mainColumns'>
+<div>
+  <span class='companyLine'>{{ dataset.invoiceSettings.companyName }}</span><br />
+  {{dataset.invoiceSettings.address1}}<br />
+  {{dataset.invoiceSettings.address2}}<br />
+  {{dataset.invoiceSettings.addressCity}}<br />
+  {{dataset.invoiceSettings.addressCountry}}<br />
+  {{dataset.invoiceSettings.addressPostcode}}<br />
+
+  <br />
+  <br />
+  <div class='billtoContainer'>
+  <div class='billtoHeader barHeader'>
+    Bill to
+  </div>
+
+  {{ dataset.customerAddress }}
+</div>
+</div>
+
+
+
+<div>
+  <img style='width:15rem' src='{{dataset.invoiceSettings.companyLogo}}' />
+
+  <h1 class='header'>
+        INVOICE
+  </h1>
+
+  <div class='invoiceDetailsContainer'>
+    <div style='width:10rem;'>
+      <div class='barHeader'>
+      Invoice #
+      </div>
+      <span style='padding:0.3rem'>{{ dataset.invoiceNumber }}</span>
+    </div>
+    <div style='width:10rem;'>
+    <div class='barHeader'>
+    Invoice Date
+    </div>
+    <span style='padding:0.3rem'>{{ dataset.invoiceDate }}</span>
+    </div>
+
+  </div>
+<br />
+  <div class='invoiceDetailsContainer'>
+  <div style='width:10rem;'>
+    <div class='barHeader'>
+    Customer ref
+    </div>
+    <span style='padding:0.3rem'>{{ dataset.customerRef }}</span>
+  </div>
+  <div style='width:10rem;'>
+  <div class='barHeader'>
+  Terms
+  </div>
+  <span style='padding:0.3rem'>{{dataset.invoiceSettings.invoiceTerms}}</span>
+  </div>
+
+</div>
+
+  </div>
+
+
+
+</div>
+
+
+<table style='margin-top: 3rem;width:100%'>
+<thead>
+  <th>Description</th>
+  <th>Qty</th>
+  <th>Unit Price</th>
+  <th>Amount</th>
+</thead>
+<tbody>
+{% for item in dataset.invoiceItems %}
+  <tr>
+    <td>{{ item.longDescription }}</td>
+    <td>{{ item.qty }}</td>
+    <td>£{{ item.price }}</td>
+    <td>£{{ item.total }}</td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+<br />
+
+<div class='mainColumns'>
+  <div>
+    <div class='barHeader'>
+    Comments
+    </div>
+
+    {{dataset.invoiceSettings.invoiceComments}}
+  </div>
+
+  <div>
+    <table class='green'>
+      <thead>
+        <th class='headerHidden'></th>
+        <th class='headerHidden'></th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Subtotal</strong></td>
+          <td>£{{ dataset.subtotal }}</td>
+        </tr>
+        <tr>
+        <td><strong>Tax Rate</strong></td>
+        <td>{{ dataset.vatRate }}%</td>
+      </tr>
+      <tr>
+      <td><strong>Tax total</strong></td>
+      <td>£{{ dataset.vatTotal }}</td>
+    </tr>
+    <tr>
+    <td><strong>Total</strong></td>
+    <td>£{{ dataset.total }}</td>
+  </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div style='page-break-after: always;'></div>
+{% endfor %}

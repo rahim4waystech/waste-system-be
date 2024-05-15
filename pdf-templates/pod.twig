@@ -1,0 +1,207 @@
+<link href="https://bootswatch.com/4/materia/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+<style type="text/css">
+@media print { body { -webkit-print-color-adjust: exact;font-family: 'Roboto', sans-serif; } }
+
+h1, h2, h3, h4,h5 {
+  font-family: 'Roboto', sans-serif;
+  color: #191919;
+}
+
+body {
+    /* height: 842px; */
+        /* width: 595px; */
+ 
+        /* margin-left: auto; */
+        /* margin-right: auto; */
+        padding: 2rem;
+        color: #191919;
+}
+
+.colorize {
+    color: #2ecc71;
+}
+
+.col-just {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.barHeader {
+  color: white;
+  background-color: #34495e;
+  padding: 0.3rem;
+  margin-right: 0.2rem;
+}
+
+.podDetailsContainer {
+  display: flex;
+  flex-flow: row wrap;
+  width:100%;
+}
+</style>
+
+<body>
+
+    {% for dataset in datasets %}
+    <div class='col-just'>
+        <div>
+            <img style='width:12rem;' src='{{ dataset.companyLogo }}' />
+        </div>
+        <div>
+        {{ dataset.addressInfo }}
+        </div>
+        <div>
+            <h2>{{ dataset.companyName }} <span class='colorize'>Proof Of Delivery Ticket 111</span></h2>
+        </div>
+    </div>
+
+    <div class='podDetailsContainer'>
+        <div  style='width:50%;'>
+          <div class='barHeader'>
+          Customer
+          </div>
+          <span style='padding:0.3rem'>{{ dataset.order.account.name }}</span>
+        </div>
+        <div  style='width:50%;'>
+            <div class='barHeader'>
+            Site Address
+            </div>
+            <span style='padding:0.3rem'>{{ datset.siteAddress }}</span>
+          </div>
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Date
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.pod.createdAt }}</span>
+          </div>
+            <div  style='width:50%;'>
+            <div class='barHeader'>
+            POD No
+            </div>
+            <span style='padding:0.3rem'>EWS{{ dataset.pod.id }}</span>
+          </div>
+    </div>
+
+    <br />
+    <h3>Vehicle <span class='colorize'>Information</span></h3>
+    <div class='podDetailsContainer'>
+        <div  style='width:50%;'>
+          <div class='barHeader'>
+          Vehicle
+          </div>
+          <span style='padding:0.3rem'>{{ dataset.pod.vehicle.registration }}</span>
+        </div>
+        <div  style='width:50%;'>
+            <div class='barHeader'>
+            Driver
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.pod.driver.firstName }} {{ dataset.pod.driver.lastName }}</span>
+          </div>
+    </div><br />
+    <br />
+
+    <h3>Job <span class='colorize'>Information</span></h3>
+
+    <div class='podDetailsContainer'>
+        <div  style='width:50%;'>
+          <div class='barHeader'>
+          Order Details
+          </div>
+          <span style='padding:0.3rem'>{{ dataset.order.description }}</span>
+        </div>  <h1></h1>
+        <div  style='width:50%;'>
+            <div class='barHeader'>
+            Service
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.service }}</span>
+          </div>
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Qty
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.serviceAmount }} {{ dataset.serviceUnit }}(s)</span>
+          </div>
+
+        {% if dataset.siteStartTime is not empty %}
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Start Time
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.siteStartTime }}</span>
+          </div>
+          {% endif %}
+         
+          {% if dataset.siteEndTime is not empty %}
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            End Time
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.siteEndTime }}</span>
+          </div>
+          {% endif %}
+          {% if dataset.driverBreakTime is not empty %}
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Breaks
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.driverBreakTime }}</span>
+          </div>
+          {% endif %}
+          {% if dataset.chargeableTime is not empty %}
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Chargeable Time
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.chargeableTime }}</span>
+          </div>
+          {% endif %}
+
+          {% if dataset.tipDetails %}
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Tipped ticket number
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.pod.tippedTicketNumber }}</span>
+          </div>    
+
+          <div  style='width:50%;'>
+            <div class='barHeader'>
+            Tip Site
+            </div>
+            <span style='padding:0.3rem'>{{ dataset.job.order.tipSite.name }}</span>
+          </div>     
+
+          {% endif %}
+         
+    </div>
+    <br />
+
+    <h3><span>{{ dataset.pod.customerName }}</span></h3>
+
+    <div style='background-color: #bdc3c7;padding:1rem;width:auto;width:30rem;'>
+       <img _ngcontent-pri-c547="" style="height: 12rem;" src="{{ dataset.pod.signature }}">
+    </div>
+    <h4>{{ dataset.signatureDetails }}</h4>
+
+
+    <br />
+    <br />
+    <h3>GPS <span class='colorize'>location of Customer Signature</span></h3>
+<img width="width:30rem" src="https://maps.googleapis.com/maps/api/staticmap?center=Albany,+NY&zoom=13&scale=1&size=600x300&maptype=roadmap&key=AIzaSyCL8haBcWiLgw1h0S2kzb3NgGUvS1T1Tzk&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7CAlbany,+NY" alt="Google Map of Albany, NY">
+
+    <h3>Photo <span class='colorize'>Evidence</span></h3>
+
+  {% for image in dataset.images %}
+ 
+   <img style='height:12rem' src='data:{{image.filetype}};base64,{{image.data}}' style='height:12rem'/>
+
+    {% endfor %}
+
+<div style='page-break-after: always;'></div>
+
+    {% endfor %}
+
+</body>
