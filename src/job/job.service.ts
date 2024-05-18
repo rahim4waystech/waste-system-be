@@ -266,18 +266,31 @@ AND job.date between ? and ?
   }
 
   async Mobile_SetAllAnswers(
-    PQuestionID : string,
-    PAnswerText : string,
-    PComments : string,
-    PUniqueID : string,
-    Pid : string,
-    PjobID : string,
-    PVehicleID : string,
-    PVehicleTypeID : string,
-    PCreatedAt : string,
-    PCreatedBy : string, 
-    PActionType : string ) {
-    await this.repo.manager.query("call sp_Mobile_SetAllAnswers('"+ PQuestionID +"','"+ PAnswerText +"','"+ PComments +"','"+ PUniqueID +"','"+ Pid +"','"+ PjobID +"','"+ PVehicleID +"','"+ PVehicleTypeID +"','"+ PCreatedAt +"','"+ PCreatedBy +"','"+ PActionType +"')"); 
+
+ PQuestionID, PAnswerText, PUniqueID, Pid, PjobID, PVehicleTypeID, PActionType ,
+ PdriverId, PvechileId, PcreatedAt, Pdescription, Presult,) {
+  
+    
+
+
+    await this.repo.manager.query("call sp_Mobile_SetAllAnswers('"+ PdriverId +"','"+ PvechileId +"','"+ PcreatedAt +"','"+ Pdescription +"','"+ Presult +"','"+ PQuestionID +"','"+ PAnswerText +"','"+ PUniqueID +"','"+ Pid +"','"+ PjobID +"','"+ PVehicleTypeID +"','"+ PActionType +"')"); 
+    
+    // await this.repo.manager.query('CALL sp_Mobile_SetAllAnswers (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    //   PdriverId,
+    //   PvechileId,
+    //   PcreatedAt,
+    //   Pdescription,
+    //   Presult,
+    //   PQuestionID,
+    //   PAnswerText,
+    //   PUniqueID,
+    //   Pid,
+    //   PjobID,
+    //   PVehicleTypeID,
+    //   PActionType
+    // ]);
+    
+    
     return true; 
 
   }

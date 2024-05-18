@@ -390,13 +390,34 @@ import { Account } from "src/account/account.entity";
   @Post('Mobile_SetAllAnswers')
   async Mobile_SetAllAnswers(@ParsedRequest() req: CrudRequest, @Param() params, @Body() data: any) 
   {
-    //  return "testing123";
-    // for (var i=0; i<=data.length-1; i++) {
-    //   this.service.Mobile_SetAllAnswers(data[i].QuestionID,data[i].AnswerText,data[i].Comments  ,data[i].UniqueID  ,data[i].id,data[i].jobID,data[i].VehicleID ,data[i].VehicleTypeID,data[i].CreatedAt ,data[i].CreatedBy ,data[i].ActionType);
-    // }
-   
+    //  return "testing123"; ,data[i].VehicleID
+    try {
+
+    for (var i=0;i<data.length; i++) {
+      console.log(i);
+      this.service.Mobile_SetAllAnswers(data[i].PQuestionID,data[i].PAnswerText  ,
+        data[i].PUniqueID  ,data[i].Pid,  data[i].PjobID  ,data[i].PVehicleTypeID,
+        data[i].PActionType,
+         parseInt(data[i].PDriverID),
+      parseInt(  data[i].PVehicleID),
+        data[i].PCreatedAt,
+
+        data[i].PDescription
+         ,data[i].PAnswerText.toLowerCase()=="yes"?1:0 );
+    }
+
+
+      return true;
+      
+    
+  } catch (error) {
+    // Handle the error
+
+    return error;
+   // console.error('An error occurred:', error.message);
+  }
  
-      return true; 
+     
   } 
 
 
